@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div id="input-nav"><a href="{% url 'home' %}" class="primary1">Home</a> 
+    <a href="{% url 'programs' %}" class="primary1"> Programs</a> 
+    <a href="{% url 'program_detail' course.program.id %}" class="primary1"> {{ course.program }}</a> 
+    <a href="{{ course.get_absolute_url }}" class="primary1">{{ course }}</a> 
+    <a href="{% url 'quiz_index' course.slug %}" class="primary1">Quizzes</a> Add Quiz</div>
+
+<div class="container">
+    <div class="header-title-xl text-center">Quiz form for {{ course }}</div>
+    <div class="title-line mb-5"></div>
+
+    <form action="" method="POST">{% csrf_token %}
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card p-2">
+                <!-- <div class="container"> -->
+                    <div class="mb-2" hidden>
+                        <label for="course">{{ form.course.label }}</label><br> {{ form.course }}
+                        <span class="danger">{{ form.course.errors }}</span>
+                        <span class="danger">{{ form.course.errors }}</span>
+                    </div>
+                    <div class="mb-2">
+                        {{ form.category|as_crispy_field }}
+                    </div>
+                    <div class="mb-2">
+                        {{ form.title|as_crispy_field }}
+                    </div>
+                    <!-- <div class="mb-2">
+                        <label for="max_questions">{{ form.max_questions.label }}</label>
+                        <input class="form-control" type="number" name="max_questions" min="0" id="id_max_questions">
+                        <span class="danger">{{ form.max_questions.errors }}</span>
+                        <small class="d-block text-muted">Number of questions to be answered on each attempt.</small>
+                    </div> -->
+                    <div class="mb-2">
+                        {{ form.pass_mark|as_crispy_field }}
+                    </div>
+                    <div class="mb-2">
+                        {{ form.description|as_crispy_field }}
+                    </div>
+                <!-- </div> -->
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card p-3">
+                <!-- <div class="container"> -->
+                    <div class="mb-2" hidden>
+                        <label for="questions">{{ form.questions.label }}</label><br> {{ form.questions }}
+                        <span class="danger">{{ form.questions.errors }}</span>
+                        <small class="d-block text-muted">Hold down "Control", or "Command" on a Mac, to select more than one.</small>
+                    </div>
+                    <div class="mb-2">
+                        {{ form.random_order|as_crispy_field }}
+                    </div>
+                    <div class="mb-2">
+                        {{ form.answers_at_end|as_crispy_field }}
+                    </div>
+                    <div class="mb-2">
+                        {{ form.exam_paper|as_crispy_field }}
+                    </div>
+                    <div class="mb-2">
+                        {{ form.single_attempt|as_crispy_field }}
+                    </div>
+                    <div class="mb-2">
+                        {{ form.draft|as_crispy_field }}
+                    </div>
+                <!-- </div> -->
+                </div>
+            </div>
+        </div>
+        <center>
+            <button class="btn btn-lg btn-primary my-4" id="{% if form.is_valid %}btn-transition{% endif %}" type="submit">Save &amp; Continue</button>
+        </center>
+    </form>
+</div>
+
+{% endblock %}
+
+{% block js %}
+<script>
+    const transitionButton = document.getElementById('btn-transition');
+    transitionButton.addEventListener('click', () => {
+        document.getElementById('card-transition').style.animation = 'card-transition 5s ease-in-out forwards';
+    })
+</script>
+{% endblock js %}
